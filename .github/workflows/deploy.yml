@@ -1,0 +1,28 @@
+name: Simple Deploy
+
+# Trigger on PR merge to develop
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 3434
+          script: |
+            cd /var/www/html/nirvana
+            git pull origin develop
+            
+      - name: Success notification
+        run: echo "✅ Deployment completed!"
