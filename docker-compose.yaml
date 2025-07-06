@@ -1,0 +1,120 @@
+version: "3.7"
+
+services:
+  nginx:
+    image: ghcr.io/zaiats85/nginx_dev:latest
+    platform: linux/amd64
+    depends_on:
+      - php-fpm
+    environment:
+      - FASTCGI_BACKEND='php-fpm:9000'
+    volumes:
+      - ./:/srv/www
+    networks:
+      - "shopware"
+
+  php-fpm:
+    image: ghcr.io/zaiats85/sw-php-fpm-8.2_dev:latest
+    user: $USER_ID
+    depends_on:
+      - mysql
+      - opensearch
+    environment:
+      - DATABASE_URL=mysql://app:app@mysql:3306/shopware
+      - APP_URL=http://localhost:8080
+      - INSTANCE_ID=
+      - SHOPWARE_ES_ENABLED=1
+      - OPENSEARCH_URL=http://opensearch:9200
+      - ADMIN_OPENSEARCH_URL=opensearch:9200
+      - SHOPWARE_ES_INDEXING_ENABLED=1
+      - SHOPWARE_ES_INDEX_PREFIX=sw
+      - SHOPWARE_ES_THROW_EXCEPTION=0
+      - SHOPWARE_CDN_STRATEGY_DEFAULT=id
+      - SQL_SET_DEFAULT_SESSION_VARIABLES=0
+      - MAILER_URL=smtp://mailhog:1025?encryption=&auth_mode=
+      - PUPPETEER_SKIP_DOWNLOAD=true
+      - XDEBUG_MODE=${XDEBUG_MODE:-off}
+      - PHP_IDE_CONFIG=serverName=localhost
+      - REDIS_SESSION_HOST=redis
+      - REDIS_SESSION_PORT=6379
+      - REDIS_CACHE_HOST=redis
+      - REDIS_CACHE_PORT=6379
+      - LOCK_DSN=flock
+      - PHP_MEMORY_LIMIT=512M
+      - PHP_MAX_EXECUTION_TIME=300
+    extra_hosts:
+      - host.docker.internal:${CUSTOM_HOST_GATEWAY:-host-gateway}
+    volumes:
+      - ./:/srv/www
+      - "~/.npm:/.npm"
+    networks:
+      - "shopware"
+    healthcheck:
+      test: curl --fail -s http://localhost:8080/ || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+
+  # should be mariadb instead
+  mysql:
+    image: mysql:8.0.25
+    platform: linux/amd64
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=shopware
+      - MYSQL_USER=app
+      - MYSQL_PASSWORD=app
+      - MYSQL_TCP_PORT=3306
+    command:
+      [
+        mysqld,
+        --log_bin_trust_function_creators=1,
+        --default-authentication-plugin=mysql_native_password,
+        "--sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION",
+        --group-concat-max-len=32000,
+      ]
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 5s
+      timeout: 2s
+      retries: 3
+    networks:
+      - "shopware"
+
+  opensearch:
+    image: opensearchproject/opensearch:2.15.0
+    platform: linux/amd64
+    environment:
+      - discovery.type=single-node
+      - "DISABLE_SECURITY_PLUGIN=true"
+      - "OPENSEARCH_JAVA_OPTS=-Xms2048m -Xmx2048m"
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl --silent --fail localhost:9200/_cluster/health || exit 1",
+        ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - "shopware"
+
+  redis:
+    image: docker.io/library/redis:7-alpine
+    networks:
+      - "shopware"
+
+  mailhog:
+    image: mailhog/mailhog:v1.0.0
+    platform: linux/amd64
+    healthcheck:
+      test: curl --fail -s http://localhost:8025/ || exit 1
+      interval: 1m
+      timeout: 10s
+      retries: 3
+    networks:
+      - "shopware"
+
+networks:
+  shopware:
