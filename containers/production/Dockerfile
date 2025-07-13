@@ -17,6 +17,7 @@ RUN apk --update --no-cache add \
     patch \
     nodejs \
     npm \
+    rsync \
   && apk add --no-cache --virtual .build-deps \
     $PHPIZE_DEPS \
     g++ \
