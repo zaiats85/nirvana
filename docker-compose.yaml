@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   nginx:
-    image: ghcr.io/zaiats85/nginx_dev:latest
+    image: ghcr.io/prodata/nginx:v2.1.0
     platform: linux/amd64
     depends_on:
       - php-fpm
@@ -14,14 +14,14 @@ services:
       - "shopware"
 
   php-fpm:
-    image: ghcr.io/zaiats85/sw-php-fpm-8.2_dev:latest
-    user: $USER_ID
+    image: ghcr.io/zaiats85/sw-php-fpm-8.2_dev:v3.0.4
+    user: ${USER_ID:-1000}:${USER_GID:-1000}
     depends_on:
       - mysql
       - opensearch
     environment:
       - DATABASE_URL=mysql://app:app@mysql:3306/shopware
-      - APP_URL=http://localhost:8080
+      - APP_URL=https://localhost:8443
       - INSTANCE_ID=
       - SHOPWARE_ES_ENABLED=1
       - OPENSEARCH_URL=http://opensearch:9200
@@ -65,6 +65,8 @@ services:
       - MYSQL_USER=app
       - MYSQL_PASSWORD=app
       - MYSQL_TCP_PORT=3306
+    volumes:
+      - mysql_data:/var/lib/mysql
     command:
       [
         mysqld,
@@ -88,6 +90,8 @@ services:
       - discovery.type=single-node
       - "DISABLE_SECURITY_PLUGIN=true"
       - "OPENSEARCH_JAVA_OPTS=-Xms2048m -Xmx2048m"
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
     healthcheck:
       test:
         [
@@ -118,3 +122,7 @@ services:
 
 networks:
   shopware:
+
+volumes:
+  mysql_data:
+  opensearch_data:
