@@ -1,0 +1,6 @@
+[submodule ".container-images"]
+	path = .container-images
+	url = git@github.com:zaiats85/container-images.git
+[submodule ".make-rules"]
+	path = .make-rules
+	url = git@github.com:zaiats85/make-rules.git
