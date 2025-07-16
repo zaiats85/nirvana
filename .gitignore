@@ -1,2 +1,22 @@
 .idea/
 certs/
+
+shopware/vendor/
+
+###> shopware/core ###
+shopware/.env.local
+shopware/.env.local.php
+shopware/.env.*.local
+shopware/public/bundles/*
+shopware/public/media/*
+shopware/public/theme/*
+shopware/public/thumbnail/*
+shopware/public/sitemap/*
+shopware/files/*
+!shopware/files/.htaccess
+shopware/var/*
+!shopware/var/.htaccess
+shopware/auth.json
+shopware/install.lock
+shopware/public/asset-manifest.json
+###< shopware/core ###
