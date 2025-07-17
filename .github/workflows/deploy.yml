@@ -25,6 +25,12 @@ jobs:
 
       - name: Install Deployer silently
         run: |
+          curl -sO https://deployer.org/deployer.phar
+          sudo mv deployer.phar /usr/local/bin/dep
+          sudo chmod +x /usr/local/bin/dep
+
+      - name: Install Deployer silently
+        run: |
           curl -sSL https://deployer.org/deployer.phar -o deployer.phar
           chmod +x deployer.phar
           sudo mv deployer.phar /usr/local/bin/dep
@@ -33,6 +39,7 @@ jobs:
         uses: deployphp/action@v1
         with:
           dep: deploy
+          sub-directory: shopware
           deployer-binary: /usr/local/bin/dep
 #          deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
