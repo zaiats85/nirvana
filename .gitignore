@@ -2,6 +2,7 @@
 certs/
 
 shopware/vendor/
+shopware/custom/plugins/*
 
 ###> shopware/core ###
 shopware/.env.local
