@@ -1,4 +1,4 @@
-name: Simple Deploy
+name: Deployment
 
 # Trigger on PR merge to develop
 on:
@@ -8,21 +8,37 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1.0.0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 3434
-          script: |
-            cd /var/www/html/nirvana
-            git pull origin develop
-            
+          php-version: '8.2'
+
+      - name: Install Shopware CLI
+        uses: shopware/shopware-cli-action@v1
+
+      - name: Build
+        run: shopware-cli project ci .
+
+      - name: Deploy
+        uses: deployphp/action@v1
+        with:
+          dep: deploy
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Success notification
         run: echo "✅ Deployment completed!"
+
+#          - name: Deploy to server
+#            uses: appleboy/ssh-action@v1.0.0
+#            with:
+#              host: ${{ secrets.HOST }}
+#              username: ${{ secrets.USERNAME }}
+#              key: ${{ secrets.SSH_PRIVATE_KEY }}
+#              port: 3434
+#              script: |
+#                cd /var/www/html/nirvana
+#                git pull origin develop

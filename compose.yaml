@@ -1,8 +1,6 @@
-version: "3.7"
-
 services:
   nginx:
-    image: ghcr.io/prodata/nginx:v2.1.0
+    image: ghcr.io/prodata/nginx:v2.1.7
     platform: linux/amd64
     depends_on:
       - php-fpm
@@ -10,6 +8,7 @@ services:
       - FASTCGI_BACKEND='php-fpm:9000'
     volumes:
       - ./:/srv/www
+      - ./certs:/etc/nginx/ssl/certs:ro
     networks:
       - "shopware"
 
@@ -17,12 +16,17 @@ services:
     image: ghcr.io/zaiats85/sw-php-fpm-8.2_dev:v3.0.4
     user: ${USER_ID:-1000}:${USER_GID:-1000}
     depends_on:
-      - mysql
-      - opensearch
+      mysql:
+        condition: service_healthy
+      opensearch:
+        condition: service_healthy
     environment:
+      - HTTP_PROXY=${HTTP_PROXY}
+      - HTTPS_PROXY=${HTTPS_PROXY}
+      - NO_PROXY=localhost,127.0.0.1,mysql
       - DATABASE_URL=mysql://app:app@mysql:3306/shopware
-      - APP_URL=https://localhost:8443
-      - INSTANCE_ID=
+      - APP_URL=http://localhost:8080
+      - SHOPWARE_APP_ENV=dev
       - SHOPWARE_ES_ENABLED=1
       - OPENSEARCH_URL=http://opensearch:9200
       - ADMIN_OPENSEARCH_URL=opensearch:9200
