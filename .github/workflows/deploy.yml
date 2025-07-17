@@ -21,7 +21,7 @@ jobs:
         uses: shopware/shopware-cli-action@v1
 
       - name: Build
-        run: shopware-cli project ci .
+        run: shopware-cli project ci ./shopware
 
       - name: Deploy
         uses: deployphp/action@v1
