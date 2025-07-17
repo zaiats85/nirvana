@@ -27,8 +27,11 @@ jobs:
         uses: deployphp/action@v1
         with:
           dep: deploy
-          deployer-version: "7.3.0"
+          deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: 3434
 
       - name: Success notification
         run: echo "✅ Deployment completed!"
