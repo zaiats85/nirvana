@@ -29,9 +29,10 @@ jobs:
           dep: deploy
           deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: 3434
+          ssh-config: |
+            HostName ${{ secrets.HOST }}
+            User ${{ secrets.USERNAME }}
+            Port 3434
 
       - name: Success notification
         run: echo "✅ Deployment completed!"
