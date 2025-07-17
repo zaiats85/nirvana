@@ -23,6 +23,15 @@ jobs:
       - name: Build
         run: shopware-cli project ci ./shopware
 
+      - name: Setup SSH
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
+          echo "${{ env.SSH_KNOWN_HOSTS }}" >> $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
+          chmod 700 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
+          chmod 644 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
+
       - name: Deploy
         uses: deployphp/action@v1
         with:
@@ -33,6 +42,7 @@ jobs:
             HostName ${{ secrets.HOST }}
             User ${{ secrets.USERNAME }}
             Port 3434
+#            StrictHostKeyChecking accept-new // use a fingerprint known for now. use this only in dev envs
 
       - name: Success notification
         run: echo "✅ Deployment completed!"
