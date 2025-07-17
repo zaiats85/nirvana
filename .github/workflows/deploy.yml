@@ -23,6 +23,25 @@ jobs:
       - name: Build
         run: shopware-cli project ci ./shopware
 
+      - name: Install Deployer silently
+        run: |
+          curl -sSL https://deployer.org/deployer.phar -o deployer.phar
+          chmod +x deployer.phar
+          sudo mv deployer.phar /usr/local/bin/dep
+
+      - name: Deploy
+        uses: deployphp/action@v1
+        with:
+          dep: deploy
+          deployer-binary: /usr/local/bin/dep
+#          deployer-version: 7.5.12
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-config: |
+            HostName ${{ secrets.HOST }}
+            User ${{ secrets.USERNAME }}
+            Port 3434
+#            StrictHostKeyChecking accept-new // use a fingerprint known for now. use this only in dev envs
+
       - name: Setup SSH
         env:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
@@ -31,18 +50,6 @@ jobs:
           echo "${{ env.SSH_KNOWN_HOSTS }}" >> $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
           chmod 700 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
           chmod 644 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
-
-      - name: Deploy
-        uses: deployphp/action@v1
-        with:
-          dep: deploy
-          deployer-version: 7.5.12
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-config: |
-            HostName ${{ secrets.HOST }}
-            User ${{ secrets.USERNAME }}
-            Port 3434
-#            StrictHostKeyChecking accept-new // use a fingerprint known for now. use this only in dev envs
 
       - name: Success notification
         run: echo "✅ Deployment completed!"
