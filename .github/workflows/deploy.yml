@@ -33,6 +33,7 @@ jobs:
         uses: deployphp/action@v1
         with:
           dep: deploy
+          sub-directory: shopware
           deployer-binary: /usr/local/bin/dep
 #          deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
