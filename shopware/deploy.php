@@ -21,7 +21,8 @@ host('stage-nirvana')
         'stage' => 'staging',
         'env'  => 'dev',
     ])
-    ->setRemoteUser('www-data')
+//    ->setRemoteUser('www-data')
+    ->setRemoteUser('root')
     ->set('deploy_path', '/var/www/share/shop-staging')
     ->set('http_user', 'www-data') // Not needed, if the `user` is the same, the webserver is running with
     ->set('writable_mode', 'chmod')
