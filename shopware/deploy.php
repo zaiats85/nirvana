@@ -22,7 +22,7 @@ host('stage-nirvana')
         'env'  => 'dev',
     ])
     ->setRemoteUser('www-data')
-    ->set('deploy_path', '/var/www/share/shop-staging')
+    ->set('deploy_path', '/var/www/nirvana/shop-staging')
     ->set('http_user', 'www-data') // Not needed, if the `user` is the same, the webserver is running with
     ->set('writable_mode', 'chmod')
     ->set('keep_releases', 3) // Keeps 3 old releases for rollbacks (if no DB migrations were executed)
