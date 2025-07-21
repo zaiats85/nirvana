@@ -1,0 +1,6 @@
+{
+    "require": {
+        "deployer/deployer": "^7.5",
+        "shopware/deployment-helper": "^0.0.25"
+    }
+}
