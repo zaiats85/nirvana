@@ -1,13 +1,16 @@
-name: Deployment
+name: Deploy to Production
 
-# Trigger on PR merge to develop
+# Trigger on version tags
 on:
   push:
-    branches: [ develop ]
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
 
 jobs:
-  deploy:
+  deploy-production:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,29 +35,13 @@ jobs:
           chmod 700 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
           chmod 644 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
 
-      - name: Deploy
+      - name: Deploy to Production
         uses: deployphp/action@v1
         with:
-          dep: deploy
+          dep: deploy production
           sub-directory: shopware
           deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh-config: |
-            HostName ${{ secrets.HOST }}
-            User ${{ secrets.USERNAME }}
-            Port 3434
-#            StrictHostKeyChecking accept-new // use a fingerprint known for now. use this only in dev envs
 
       - name: Success notification
-        run: echo "✅ Deployment completed!"
-
-#          - name: Deploy to server
-#            uses: appleboy/ssh-action@v1.0.0
-#            with:
-#              host: ${{ secrets.HOST }}
-#              username: ${{ secrets.USERNAME }}
-#              key: ${{ secrets.SSH_PRIVATE_KEY }}
-#              port: 3434
-#              script: |
-#                cd /var/www/html/nirvana
-#                git pull origin develop
+        run: echo "✅ Shopware deployed successfully to PRODUCTION!"
