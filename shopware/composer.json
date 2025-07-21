@@ -1,6 +1,6 @@
 {
     "name": "prodata/demo",
-    "description": "Shopware demo shop local docker setup",
+    "description": "Prodata Shopware demo shop local docker setup",
     "authors": [
         {
             "name": "Prodata Gmbh"
@@ -10,8 +10,10 @@
     "type": "project",
     "require": {
         "composer-runtime-api": "^2.0",
+        "deployer/deployer": "^7.5",
         "shopware/administration": "*",
         "shopware/core": "v6.7.0.1",
+        "shopware/deployment-helper": "^0.0.25",
         "shopware/elasticsearch": "*",
         "shopware/storefront": "*",
         "swag/paypal": "10.1.0",
