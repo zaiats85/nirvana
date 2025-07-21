@@ -41,6 +41,10 @@ jobs:
           sub-directory: shopware
           deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-config: | 
+            HostName ${{ secrets.SSH_PRIVATE_KEY }}
+            User ${{ secrets.PROD_USERNAME }}
+            Port 3434
 
       - name: Success notification
         run: echo "✅ Shopware deployed successfully to STAGING!"
