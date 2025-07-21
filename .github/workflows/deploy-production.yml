@@ -28,10 +28,10 @@ jobs:
 
       - name: Setup SSH
         env:
-          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS_PROD }}
         run: |
           mkdir -p $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
-          echo "${{ env.SSH_KNOWN_HOSTS }}" >> $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
+          echo "${{ env.SSH_KNOWN_HOSTS_PROD }}" >> $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
           chmod 700 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
           chmod 644 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
 
@@ -41,10 +41,10 @@ jobs:
           dep: deploy production
           sub-directory: shopware
           deployer-version: 7.5.12
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          private-key: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
           ssh-config: |
-            HostName ${{ secrets.SSH_PRIVATE_KEY }}
-            User ${{ secrets.PROD_USERNAME }}
+            HostName ${{ secrets.HOST_PROD }}
+            User ${{ secrets.USERNAME_PROD }}
             Port 3434
 
       - name: Success notification
