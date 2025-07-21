@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: ghcr.io/prodata/nginx:v2.1.7
+    image: ghcr.io/zaiats85/nginx_dev:v2.2.4
     platform: linux/amd64
     depends_on:
       - php-fpm
