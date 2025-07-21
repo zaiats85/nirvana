@@ -2,7 +2,8 @@
 certs/
 
 shopware/vendor/
-shopware/custom/plugins/*
+shopware/custom/plugins/*/
+!shopware/custom/plugins/.gitkeep
 
 ###> shopware/core ###
 shopware/.env.local
