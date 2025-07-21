@@ -1,11 +1,4 @@
 {
-  "name": "prodata/demo",
-  "description": "Prodata Shopware demo shop docker local setup",
-  "authors": [
-    {
-      "name": "Prodata Gmbh"
-    }
-  ],
   "license": "proprietary",
   "type": "project",
   "require": {
