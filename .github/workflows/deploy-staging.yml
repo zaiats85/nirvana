@@ -27,8 +27,7 @@ jobs:
           cd shopware
           composer install --no-dev --optimize-autoloader
           php bin/console plugin:refresh
-          php bin/console plugin:install --activate SwagLanguagePack
-          php bin/console plugin:install --activate SwagPayPal
+          
 
       - name: Build
         run: shopware-cli project ci ./shopware
