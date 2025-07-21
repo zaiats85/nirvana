@@ -5,6 +5,7 @@
         "This file is @generated automatically"
     ],
     "content-hash": "903902451d7df1e99e1eba1abcd420ac",
+
     "packages": [
         {
             "name": "async-aws/core",
