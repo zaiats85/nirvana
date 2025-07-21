@@ -42,8 +42,8 @@ jobs:
           deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh-config: | 
-            HostName ${{ secrets.SSH_PRIVATE_KEY }}
-            User ${{ secrets.PROD_USERNAME }}
+            HostName ${{ secrets.HOST }}
+            User ${{ secrets.USERNAME }}
             Port 3434
 
       - name: Success notification
