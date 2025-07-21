@@ -1,0 +1,46 @@
+name: Deploy to Staging
+
+# Trigger when release branch is created/pushed
+on:
+  push:
+    branches:
+      - 'release/v[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+
+      - name: Install Shopware CLI
+        uses: shopware/shopware-cli-action@v1
+
+      - name: Build
+        run: shopware-cli project ci ./shopware
+
+      - name: Setup SSH
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
+        run: |
+          mkdir -p $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
+          echo "${{ env.SSH_KNOWN_HOSTS }}" >> $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
+          chmod 700 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/
+          chmod 644 $(getent passwd $(whoami) | cut -d : -f 6)/.ssh/known_hosts
+
+      - name: Deploy to Staging
+        uses: deployphp/action@v1
+        with:
+          dep: deploy staging
+          sub-directory: shopware
+          deployer-version: 7.5.12
+          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Success notification
+        run: echo "✅ Shopware deployed successfully to STAGING!"
