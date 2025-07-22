@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+    <card>
+        <title lang="de-DE">Einstellungen</title>
+        <title>Settings</title>
+
+        <input-field type="bool">
+            <name>showRewardsNoteInAddressForms</name>
+            <label>Show rewards note in AddressForms</label>
+            <label lang="de-DE">Prämiennotiz in AddressForms anzeigen</label>
+            <defaultValue>false</defaultValue>
+        </input-field>
+
+        <component name="sw-entity-single-select">
+            <name>backToListingCategory</name>
+            <entity>category</entity>
+            <label>Select Category for a listing page</label>
+            <label lang="de-DE">Kategorie "Zur Artikelübersicht"</label>
+            <label lang="en-GB">Category for "back to articles"</label>
+        </component>
+
+        <component name="sw-entity-single-select">
+            <name>privacyCategory</name>
+            <entity>category</entity>
+            <label>Select Datenschutz</label>
+            <label lang="de-DE">Kategorie für Datenschutz</label>
+            <label lang="en-GB">Category for Privacy</label>
+        </component>
+
+        <component name="sw-entity-single-select">
+            <name>imprintCategory</name>
+            <entity>category</entity>
+            <label>Select Impressum</label>
+            <label lang="de-DE">Kategorie für Impressum</label>
+            <label lang="en-GB">Category for Imprint</label>
+        </component>
+    </card>
+</config>

@@ -25,6 +25,9 @@ deployment:
     # This is useful for project-specific plugins that are not versioned
     force-update:
       - Name
+  overrides:
+    ProdataBaseTheme:
+      state: active
 
   one-time-tasks:
     - id: foo

@@ -1,0 +1,22 @@
+// Helvetica Neue
+$helvetica-font-name: "Helvetica-Neue";
+$helvetica-font-dir: "Helvetica";
+$helvetica-fonts: (
+    "-Thin": 100,
+    "-Light": 300,
+    "-Roman": 400,
+    "-Medium": 500,
+    "-Bold": 700
+);
+
+@each $name, $weight in $helvetica-fonts {
+    @font-face {
+        // Helvetica Neue
+        font-family: "Helvetica Neue";
+        font-weight: $weight;
+        font-style: normal;
+        src: url("#{$base-base-theme-assets-folder}/fonts/#{$helvetica-font-dir}/#{$helvetica-font-name}#{$name}.otf")
+        format("opentype");
+        font-display: swap;
+    }
+}

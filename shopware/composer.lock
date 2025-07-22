@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1b3870bfa488af481ab983aff6960074",
+    "content-hash": "7c84106f19b2c2f96b978506a58c7d84",
     "packages": [
         {
             "name": "async-aws/core",
@@ -4022,6 +4022,41 @@
                 "source": "https://github.com/phpstan/phpdoc-parser/tree/2.2.0"
             },
             "time": "2025-07-13T07:04:09+00:00"
+        },
+        {
+            "name": "prodata/base-theme",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "custom/static-plugins/ProdataBASETheme",
+                "reference": "4f4c2e7d80373e048faf7ad08b219290c556d87b"
+            },
+            "type": "shopware-platform-plugin",
+            "extra": {
+                "shopware-plugin-class": "ProdataBASETheme\\ProdataBASETheme",
+                "label": {
+                    "de-DE": "Theme ProdataBASETheme plugin",
+                    "en-GB": "Theme ProdataBASETheme plugin"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ProdataBASETheme\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Prodata Gmbh"
+                }
+            ],
+            "description": "BASE Theme Prodata Gmbh",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "psr/cache",

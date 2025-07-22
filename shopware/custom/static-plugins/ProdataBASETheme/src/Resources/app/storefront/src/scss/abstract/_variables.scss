@@ -1,0 +1,65 @@
+// sources
+$theme-id: '' !default;
+$app-css-relative-asset-path: '../../' + $theme-id + '/assets' !default;
+$base-base-theme-assets-folder: "#{$app-css-relative-asset-path}";
+
+// typography
+$font-family-base: $sw-font-family-base; // Helvetica/Inter
+$base-font-family-headline: $sw-font-family-headline; // Helvetica/Inter
+
+// Font sizes
+$base-font-size-4xl: 3rem; // 48px
+$base-font-size-3xl: 2rem; // 32px
+$base-font-size-xxl: 1.5rem; // 24px
+$base-font-size-xl: 1.25rem; // 20px
+$base-font-size-lg: 1.125rem; // 18px
+$base-font-size-base: 1rem; // 16px
+$base-font-size-md: 0.875rem; // 14px
+$base-font-size-sm: 0.75rem; // 12px
+$base-font-size-xs: 0.625rem; // 10px
+
+// Font weights
+$base-font-weight-thin: 100; // Helvetica-Neue-Thin
+$base-font-weight-extra-light: 200;
+$base-font-weight-light: 300; // Helvetica-Neue-Light
+$base-font-weight-roman: 400; // Helvetica-Neue-Roman
+$base-font-weight-medium: 500; // Helvetica-Neue-Medium
+$base-font-weight-semi-bold: 600;
+$base-font-weight-bold: 700; // Helvetica-Neue-Bold
+$base-font-weight-extra-bold: 800;
+$base-font-weight-black: 900;
+
+// Line heights
+$base-line-height-base: 1;
+$base-line-height-md: 1.25;
+$base-line-height-lg: 1.6;
+$base-line-height-xl: 1.8;
+
+// Letter spacing
+$base-letter-spacing-base: 0.01em;
+$base-letter-spacing-mini: 0.015em;
+$base-letter-spacing-tiny: 0.025em;
+$base-letter-spacing-small: 0.035em;
+$base-letter-spacing-medium: 0.05em;
+$base-text-line-height: 1.6;
+
+// Layout
+$base-content-max-width: 1170px;
+
+// Heading sizes
+$base-h1-font-size: 2.5rem; // 40px
+$base-h1-font-size-mobile: 2.25rem; // 36px
+$base-h2-font-size: 1.5rem; // 24px
+$base-h2-font-size-mobile: 1.25rem; // 20px
+$base-h3-font-size: 1.5rem; // 24px
+$base-h3-font-size-mobile: 1.5rem; // 24px
+$base-h4-font-size: 1.25rem; // 20px
+$base-h4-font-size-mobile: 1.25rem; // 20px
+$base-h5-font-size: 1.125rem; // 18px
+$base-h5-font-size-mobile: 1.125rem; // 18px
+$base-h6-font-size: 1rem; // 16px
+$base-h6-font-size-mobile: 1rem; // 16px
+$base-headings-font-weight: 700;
+
+// Icons
+$base-icon-base-size: 24px;

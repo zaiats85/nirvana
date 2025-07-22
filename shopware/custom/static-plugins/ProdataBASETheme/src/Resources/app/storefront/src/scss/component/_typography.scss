@@ -1,0 +1,25 @@
+/* HEADING LEVEL 1 */
+h1, .h1 {
+    font-size: $base-h1-font-size;
+    font-weight: $base-font-weight-roman;
+
+    @include media-breakpoint-up(lg) {
+        font-size: $base-font-size-4xl;
+        line-height: 3.4375rem;
+        padding-bottom: 1.875rem;
+    }
+
+    @include media-breakpoint-down(md) {
+        font-size: $base-h1-font-size-mobile;
+    }
+}
+
+/* HEADING LEVEL 2 */
+h2, .h2 {
+    font-size: $base-h2-font-size;
+    line-height: 1.875rem;
+
+    @include media-breakpoint-down(md) {
+        font-size: $base-h2-font-size-mobile;
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "name": "prodata/base-theme",
+    "description": "BASE Theme Prodata Gmbh",
+    "version": "1.0.0",
+    "authors": [
+        {
+            "name": "Prodata Gmbh"
+        }
+    ],
+
+    "type": "shopware-platform-plugin",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "ProdataBASETheme\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "ProdataBASETheme\\ProdataBASETheme",
+        "label": {
+            "de-DE": "Theme ProdataBASETheme plugin",
+            "en-GB": "Theme ProdataBASETheme plugin"
+        }
+    }
+}
