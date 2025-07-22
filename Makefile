@@ -7,6 +7,7 @@ MYSQL = mysql
 ELASTICSEARCH = elasticsearch
 MAILHOG = mailhog
 ADMINER = adminer
+DATABASE = nirvana
 
 help:
 	@echo -e "\033[1;38;5;196m  ____   ____    ___   ____    _  _____  _"
@@ -84,7 +85,7 @@ db-import: check-pv
 		exit 1; \
 	fi
 	@echo "Importing database from $(file)..."
-	@pv "$(file)" | gunzip | docker compose  exec -T mysql mysql -uroot -proot shopware
+	@pv "$(file)" | gunzip | docker compose  exec -T mysql mysql -uroot -proot $(DATABASE)
 
 # Database export
 db-export:
@@ -92,7 +93,7 @@ db-export:
 	@timestamp=$$(date +"%Y%m%d_%H%M%S"); \
 	filename="shopware_backup_$${timestamp}.sql.gz"; \
 	echo "Exporting database to files/db_dumps/$${filename}"; \
-	docker compose  exec $(MYSQL) mysqldump -uroot -proot shopware --single-transaction --skip-lock-tables --no-tablespaces | gzip | pv > files/db_dumps/$${filename}
+	docker compose  exec $(MYSQL) mysqldump -uroot -proot $(DATABASE) --single-transaction --skip-lock-tables --no-tablespaces | gzip | pv > files/db_dumps/$${filename}
 
 # Enable Xdebug
 enable-xdebug:
