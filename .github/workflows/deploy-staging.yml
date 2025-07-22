@@ -22,11 +22,11 @@ jobs:
       - name: Install Shopware CLI
         uses: shopware/shopware-cli-action@v1
 
-      - name: Install Store Plugins
-        run: |
-          cd shopware
-          composer install --no-dev --optimize-autoloader
-          php bin/console plugin:refresh
+      #- name: Install Store Plugins
+      #  run: |
+      #    cd shopware
+      #    composer install --no-dev --optimize-autoloader
+      #    php bin/console plugin:refresh
 
       - name: Build
         run: shopware-cli project ci ./shopware
