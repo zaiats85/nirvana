@@ -13,7 +13,6 @@ set('allow_anonymous_stats', false);
 set('default_timeout', 3600); // Increase when tasks take longer than that.
 
 // Hosts
-
 host('staging')
     ->setHostname('157.230.14.200')
     ->setLabels([
@@ -72,10 +71,11 @@ task('sw:touch_install_lock', static function () {
 });
 
 task('sw:health_checks', static function () {
-    run('cd {{release_path}} && bin/console system:check --context=pre_rollout');
+#    run('cd {{release_path}} && bin/console system:check --context=pre_rollout');
+    run('cd {{release_path}} && vendor/bin/shopware-deployment-helper run --verbose');
 });
 
-desc('Deploys your project');
+desc('Deploys Nirvana');
 task('deploy', [
     'deploy:prepare',
     'deploy:clear_paths',

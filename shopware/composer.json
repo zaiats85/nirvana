@@ -15,7 +15,6 @@
         "shopware/deployment-helper": "^0.0.25",
         "shopware/elasticsearch": "*",
         "shopware/storefront": "*",
-        "swag/paypal": "10.1.0",
         "symfony/flex": "~2"
     },
     "repositories": [
