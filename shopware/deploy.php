@@ -71,10 +71,11 @@ task('sw:touch_install_lock', static function () {
 });
 
 task('sw:health_checks', static function () {
-    run('cd {{release_path}} && bin/console system:check --context=pre_rollout');
+#    run('cd {{release_path}} && bin/console system:check --context=pre_rollout');
+    run('cd {{release_path}} && vendor/bin/shopware-deployment-helper run --verbose');
 });
 
-desc('Deploys your project');
+desc('Deploys Nirvana');
 task('deploy', [
     'deploy:prepare',
     'deploy:clear_paths',
