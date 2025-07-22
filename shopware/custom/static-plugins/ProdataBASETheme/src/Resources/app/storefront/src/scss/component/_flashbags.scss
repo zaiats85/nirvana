@@ -1,0 +1,8 @@
+.alert-warning {
+    color: $sw-color-warning;
+    font-size: 15px; // custom
+}
+
+.flashbags.container:not(:empty) {
+    margin-top: 1rem;
+}

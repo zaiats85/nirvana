@@ -1,0 +1,41 @@
+{% block base_component_image %}
+    {% set context = context %}
+    {% set imageId = imageId|default(null) %}
+    {% set alt = alt|default("") %}
+    {% set title = title|default("") %}
+    {% set classes = classes|default("") %}
+    {% set isPlaceholderHidden = isPlaceholderHidden|default(false) %}
+    {% set sizes = sizes|default({
+        'xs': '300px',
+        'sm': '300px',
+        'md': '800px',
+        'lg': '800px',
+        'xl': '1200px'
+    }) %}
+
+    <div class="image-wrapper base-image {{ classes }}">
+        {% if imageId %}
+            {% set mediaCollection = searchMedia([imageId], context.context) %}
+            {% set imageMedia = mediaCollection.get(imageId) %}
+            {% set imageAttributes = {
+                alt,
+                title,
+                loading: 'lazy'
+            } %}
+
+            {% block thumbnail_wrapper %}
+                {% sw_thumbnails 'image' with {
+                    media: imageMedia,
+                    attributes: imageAttributes,
+                    sizes
+                } %}
+            {% endblock %}
+        {% else %}
+            {% if not isPlaceholderHidden %}
+                {% sw_icon 'placeholder' style {
+                    'size': 'fluid'
+                } %}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endblock %}

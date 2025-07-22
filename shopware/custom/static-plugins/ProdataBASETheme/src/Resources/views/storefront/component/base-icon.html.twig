@@ -1,0 +1,19 @@
+{% block base_component_icon %}
+    {# sample: 'icon-user' #}
+    {% set name = name|default(null) %}
+    {% set size = size|default(null) %}
+    {% set withWrapper = withWrapper|default(false) %}
+    {% set wishlist = wishlist %}
+
+    {% if name %}
+        {% if withWrapper %}
+            <span class="icon icon-base-icons{% if size %} icon-{{ size }}{% endif %}">
+        {% endif %}
+
+        {{ getSource('@ProdataBASETheme/../app/storefront/src/assets/icons/' ~ name ~ '.svg', ignore_missing = true)|raw }}
+
+        {% if withWrapper %}
+            </span>
+        {% endif %}
+    {% endif %}
+{% endblock %}

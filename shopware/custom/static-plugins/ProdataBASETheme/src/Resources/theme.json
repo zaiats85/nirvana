@@ -1,0 +1,374 @@
+{
+  "name": "ProdataBASETheme",
+  "author": "Prodata GmbH",
+  "views": [
+    "@Storefront",
+    "@Plugins",
+    "@ProdataBASETheme"
+  ],
+  "previewMedia": "app/storefront/src/assets/logos/prodata_logo_preview_400x300.png",
+  "style": [
+    "app/storefront/src/scss/overrides.scss",
+    "@Storefront",
+    "app/storefront/src/scss/base.scss"
+  ],
+  "script": [
+    "@Storefront",
+    "app/storefront/dist/storefront/js/prodata-b-a-s-e-theme/prodata-b-a-s-e-theme.js"
+  ],
+  "asset": [
+    "@Storefront",
+    "app/storefront/src/assets"
+  ],
+  "iconSets": {
+    "base-icons": "app/storefront/src/assets/icons"
+  },
+  "config": {
+    "fields": {
+      "sw-color-brand-primary": {
+        "type": "color",
+        "value": "#004a96",
+        "editable": true,
+        "tab": "Colors",
+        "block": "themeColors"
+      },
+      "sw-color-brand-secondary": {
+        "type": "color",
+        "value": "#7C7C7C",
+        "editable": true,
+        "tab": "Colors",
+        "block": "themeColors"
+      },
+      "sw-border-color": {
+        "type": "color",
+        "value": "#DCDCDC",
+        "editable": true,
+        "tab": "Colors",
+        "block": "themeColors"
+      },
+      "sw-background-color": {
+        "type": "color",
+        "value": "#fff",
+        "editable": true,
+        "tab": "Colors",
+        "block": "themeColors"
+      },
+      "base-color-gray-1": {
+        "label": {
+          "en-GB": "Gray-1 (Main)",
+          "de-DE": "Gray-1 (Haupt)"
+        },
+        "type": "color",
+        "value": "#7C7C7C",
+        "editable": true,
+        "tab": "Colors",
+        "order": 200,
+        "block": "Main Colors",
+        "section": "Main Colors"
+      },
+      "base-color-white-1": {
+        "label": {
+          "en-GB": "White-1 (Main)",
+          "de-DE": "Weiß-1 (Haupt)"
+        },
+        "type": "color",
+        "value": "#FFFFFF",
+        "editable": true,
+        "tab": "Colors",
+        "order": 300,
+        "block": "Main Colors",
+        "section": "Main Colors"
+      },
+      "base-color-yellow-1": {
+        "label": {
+          "en-GB": "Yellow-1 (Main)",
+          "de-DE": "Gelb-1 (Haupt)"
+        },
+        "type": "color",
+        "value": "#FFCC00",
+        "editable": true,
+        "tab": "Colors",
+        "order": 400,
+        "block": "Main Colors",
+        "section": "Main Colors"
+      },
+      "base-color-orange-1": {
+        "label": {
+          "en-GB": "Orange-1 (Main)",
+          "de-DE": "Orange-1 (Haupt)"
+        },
+        "type": "color",
+        "value": "#F39500",
+        "editable": true,
+        "tab": "Colors",
+        "order": 500,
+        "block": "Main Colors",
+        "section": "Main Colors"
+      },
+      "base-color-red-1": {
+        "label": {
+          "en-GB": "Red-1 (Main)",
+          "de-DE": "Rot-1 (Haupt)"
+        },
+        "type": "color",
+        "value": "#EC0016",
+        "editable": true,
+        "tab": "Colors",
+        "order": 600,
+        "block": "Main Colors",
+        "section": "Main Colors"
+      },
+      "base-color-green-2": {
+        "label": {
+          "en-GB": "Green-1 (Main)",
+          "de-DE": "Grün-1 (Haupt)"
+        },
+        "type": "color",
+        "value": "#65AC1E",
+        "editable": true,
+        "tab": "Colors",
+        "order": 700,
+        "block": "Main Colors",
+        "section": "Main Colors"
+      },
+      "base-color-gray-2": {
+        "label": {
+          "en-GB": "Gray-2",
+          "de-DE": "Grau-2"
+        },
+        "type": "color",
+        "value": "#DCDCDC",
+        "editable": true,
+        "order": 100,
+        "tab": "Colors",
+        "block": "grayColors"
+      },
+      "base-color-gray-3": {
+        "label": {
+          "en-GB": "Gray-3",
+          "de-DE": "Grau-3"
+        },
+        "type": "color",
+        "value": "#333333",
+        "editable": true,
+        "order": 200,
+        "tab": "Colors",
+        "block": "grayColors"
+      },
+      "base-color-gray-4": {
+        "label": {
+          "en-GB": "Gray-4",
+          "de-DE": "Grau-4"
+        },
+        "type": "color",
+        "value": "#f0f0f0",
+        "editable": true,
+        "order": 300,
+        "tab": "Colors",
+        "block": "grayColors"
+      },
+      "base-color-gray-5": {
+        "label": {
+          "en-GB": "Gray-5",
+          "de-DE": "Grau-5"
+        },
+        "type": "color",
+        "value": "#E0E9F2",
+        "editable": true,
+        "order": 400,
+        "tab": "Colors",
+        "block": "grayColors"
+      },
+      "base-color-blue-2": {
+        "label": {
+          "en-GB": "Blue-2",
+          "de-DE": "Blau-2"
+        },
+        "type": "color",
+        "value": "#21A0D2",
+        "editable": true,
+        "order": 100,
+        "tab": "Colors",
+        "block": "blueColors"
+      },
+      "base-color-blue-3": {
+        "label": {
+          "en-GB": "Blue-3",
+          "de-DE": "Blau-3"
+        },
+        "type": "color",
+        "value": "#E0F2F9",
+        "editable": true,
+        "order": 200,
+        "tab": "Colors",
+        "block": "blueColors"
+      },
+      "base-color-blue-4": {
+        "label": {
+          "en-GB": "Blue-4",
+          "de-DE": "Blau-4"
+        },
+        "type": "color",
+        "value": "#A6C0DA",
+        "editable": true,
+        "order": 300,
+        "tab": "Colors",
+        "block": "blueColors"
+      },
+      "sw-color-success": {
+        "label": {
+          "en-GB": "Success",
+          "de-DE": "Erfolg"
+        },
+        "type": "color",
+        "value": "#65ac1e",
+        "editable": true,
+        "tab": "Colors",
+        "block": "statusColors",
+        "order": 100
+      },
+      "sw-color-info": {
+        "label": {
+          "en-GB": "Information",
+          "de-DE": "Information"
+        },
+        "type": "color",
+        "value": "#f39500",
+        "editable": true,
+        "scss": true,
+        "tab": "Colors",
+        "block": "statusColors",
+        "order": 200
+      },
+      "sw-color-warning": {
+        "label": {
+          "en-GB": "Notice",
+          "de-DE": "Hinweis"
+        },
+        "type": "color",
+        "value": "#21a0d2",
+        "editable": true,
+        "scss": true,
+        "tab": "Colors",
+        "block": "statusColors",
+        "order": 300
+      },
+      "sw-color-danger": {
+        "label": {
+          "en-GB": "Error",
+          "de-DE": "Fehler"
+        },
+        "type": "color",
+        "value": "#ec0016",
+        "editable": true,
+        "scss": true,
+        "tab": "Colors",
+        "block": "statusColors",
+        "order": 400
+      },
+      "sw-color-price": {
+        "label": {
+          "en-GB": "Price",
+          "de-DE": "Preis"
+        },
+        "type": "color",
+        "value": "#65ac1e",
+        "editable": true,
+        "tab": "Colors",
+        "block": "eCommerce",
+        "section": "E-Commerce",
+        "order": 100
+      },
+      "sw-color-buy-button": {
+        "label": {
+          "en-GB": "Buy button",
+          "de-DE": "Kaufen-Button"
+        },
+        "type": "color",
+        "value": "#65ac1e",
+        "editable": true,
+        "tab": "Colors",
+        "block": "eCommerce",
+        "section": "E-Commerce",
+        "order": 200
+      },
+      "sw-color-filter-selection": {
+        "label": {
+          "en-GB": "Filter selection box",
+          "de-DE": "Filter Auswahl Box"
+        },
+        "type": "color",
+        "value": "#DCDCDC",
+        "editable": true,
+        "tab": "Colors",
+        "block": "eCommerce",
+        "order": 400
+      },
+      "sw-color-buy-button-text": {
+        "label": {
+          "en-GB": "Buy button text",
+          "de-DE": "Kaufen-Button Text"
+        },
+        "type": "color",
+        "value": "#ffffff",
+        "editable": true,
+        "tab": "Colors",
+        "block": "eCommerce",
+        "section": "E-Commerce",
+        "order": 300
+      },
+      "sw-font-family-base": {
+        "label": {
+          "en-GB": "Fonttype text",
+          "de-DE": "Schriftart Text"
+        },
+        "type": "fontFamily",
+        "value": "Helvetica Neue, sans-serif",
+        "editable": false,
+        "scss": true,
+        "tab": "Fonts",
+        "block": "typography",
+        "order": 100
+      },
+      "sw-text-color": {
+        "label": {
+          "en-GB": "Text colour",
+          "de-DE": "Textfarbe"
+        },
+        "type": "color",
+        "value": "#333333",
+        "editable": true,
+        "scss": true,
+        "tab": "Fonts",
+        "block": "typography",
+        "order": 200
+      },
+      "sw-font-family-headline": {
+        "label": {
+          "en-GB": "Fonttype headline",
+          "de-DE": "Schriftart Überschrift"
+        },
+        "type": "fontFamily",
+        "value": "Helvetica Neue, sans-serif",
+        "editable": false,
+        "scss": true,
+        "tab": "Fonts",
+        "block": "typography",
+        "order": 300
+      },
+      "sw-headline-color": {
+        "label": {
+          "en-GB": "Headline colour",
+          "de-DE": "Überschriftfarbe"
+        },
+        "type": "color",
+        "value": "#333333",
+        "editable": true,
+        "scss": true,
+        "tab": "Fonts",
+        "block": "typography",
+        "order": 400
+      }
+    }
+  }
+}

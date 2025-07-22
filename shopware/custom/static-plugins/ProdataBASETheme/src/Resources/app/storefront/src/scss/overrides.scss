@@ -1,0 +1,47 @@
+/* Override variable defaults ==================================================
+This file is used to override default SCSS variables from the Shopware Storefront or Bootstrap.
+Because of the !default flags, theme variable overrides have to be declared beforehand.
+https://getbootstrap.com/docs/5.3/customize/sass/#variable-defaults */
+
+@import "abstract";
+
+// bootstrap colors
+$primary: $sw-color-brand-primary;
+$secondary: $sw-color-brand-secondary;
+
+// plugin overrides
+$frenzel_header_primary: $primary;
+$frenzel_footer_primary: $primary;
+$frenzel_layout_primary: $primary;
+$frenzel_customer_primary: $primary;
+$frenzel_checkout_primary: $primary;
+$frenzel-product-box_primary: $primary;
+$elio_wishlist_primary: $primary;
+
+$frenzel_header_secondary: $secondary;
+$frenzel_footer_secondary: $secondary;
+$frenzel_layout_secondary: $secondary;
+$frenzel_customer_secondary: $secondary;
+$frenzel_checkout_secondary: $secondary;
+$frenzel-product-box_secondary: $secondary;
+$elio_wishlist_secondary: $secondary;
+
+$frenzel_header_system_warning: $sw-color-warning;
+
+// bootstrap icons
+$icon-base-size: $base-icon-base-size;
+
+// bootstrap main
+$body-color: $base-color-gray-3;
+$font-family-base: $sw-font-family-base;
+
+// bootstrap headings
+$h1-font-size: $base-h1-font-size;
+$h2-font-size: $base-h2-font-size;
+$h3-font-size: $base-h3-font-size;
+$h4-font-size: $base-h4-font-size;
+$h5-font-size: $base-h5-font-size;
+$h6-font-size: $base-h6-font-size;
+
+$headings-font-family: $sw-font-family-headline;
+$headings-font-weight: $base-headings-font-weight;
