@@ -1,7 +1,7 @@
 deployment:
   hooks:
     pre: |
-      echo "Before deployment general"
+      echo "Before deployment general execute"
     post: |
       echo "After deployment general"
     pre-install: |
