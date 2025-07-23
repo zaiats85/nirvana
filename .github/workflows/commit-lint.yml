@@ -1,12 +1,12 @@
-name: Lint Commits
+name: Commit Validation
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
 
 jobs:
-  commitlint:
-    name: Lint Commit Messages
+  lint-commit-messages:
+    name: Lint Commits
     runs-on: ubuntu-latest
 
     steps:
