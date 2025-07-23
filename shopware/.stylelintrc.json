@@ -1,0 +1,32 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "color-no-invalid-hex": true,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
+    "max-nesting-depth": 8,
+    "selector-max-compound-selectors": 8,
+    "declaration-no-important": null,
+    "color-hex-length": "short",
+
+    "font-family-name-quotes": "always-where-recommended",
+    "function-url-quotes": "always",
+    "selector-attribute-quotes": "always",
+
+    "scss/at-import-partial-extension": null,
+    "scss/dollar-variable-pattern": null,
+    "selector-class-pattern": null,
+    "no-empty-source": null
+  },
+  "ignoreFiles": [
+    "custom/plugins/**/*.scss",
+    "vendor/**/*.scss",
+    "var/**/*.scss",
+    "node_modules/**/*.scss",
+    "**/dist/**/*.scss"
+  ]
+}
