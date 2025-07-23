@@ -1,0 +1,88 @@
+name: Lint Commits
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  commitlint:
+    name: Lint Commit Messages
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - run: npm install -g @commitlint/cli @commitlint/config-conventional
+
+      - name: Lint commits
+        run: |
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.head.sha }}"
+          
+          echo "🔍 Linting commits..."
+          
+          COMMITS=$(git rev-list --reverse $BASE_SHA..$HEAD_SHA)
+          FAILED=0
+          
+          for commit in $COMMITS; do
+            SHORT_SHA=$(git rev-parse --short $commit)
+            COMMIT_MSG=$(git log --format=%B -n 1 $commit)
+          
+            echo "Checking $SHORT_SHA..."
+          
+            # Check conventional commit format
+            if ! echo "$COMMIT_MSG" | npx commitlint; then
+              echo "❌ $SHORT_SHA: Invalid commit format"
+              FAILED=1
+              continue
+            fi
+          
+            # Check for required Refs: line
+            if ! echo "$COMMIT_MSG" | grep -q "^Refs: "; then
+              echo "❌ $SHORT_SHA: Missing required 'Refs:' line"
+              FAILED=1
+              continue
+            fi
+          
+            # Validate Refs: format
+            REF_LINE=$(echo "$COMMIT_MSG" | grep "^Refs: " | head -n 1)
+            if ! echo "$REF_LINE" | grep -qE "^Refs: (feature|bug|hotfix|release)/[A-Z]+-[0-9]+$"; then
+              echo "❌ $SHORT_SHA: Invalid Refs format: $REF_LINE"
+              echo "   Expected: Refs: feature/ABC-123"
+              FAILED=1
+              continue
+            fi
+          
+            echo "✅ $SHORT_SHA: Valid"
+          done
+          
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ All commits MUST include Refs line:"
+            echo ""
+            echo "📋 Required format:"
+            echo "   type: description"
+            echo "   "
+            echo "   Refs: feature/ABC-123"
+            echo ""
+            echo "✅ Valid examples:"
+            echo "   feat: add user auth"
+            echo "   "
+            echo "   Refs: feature/AUTH-456"
+            echo ""
+            echo "   fix: resolve login bug"
+            echo "   "
+            echo "   Refs: bug/LOGIN-789"
+            echo ""
+            echo "❌ Invalid (missing Refs):"
+            echo "   feat: add user auth"
+            exit 1
+          fi
+          
+          echo "🎉 All commits valid with required Refs!"
