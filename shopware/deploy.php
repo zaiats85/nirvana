@@ -4,9 +4,10 @@ namespace Deployer;
 
 require_once 'recipe/common.php';
 require_once 'contrib/cachetool.php';
+use Symfony\Component\Console\Output\OutputInterface;
 
+set('verbosity', OutputInterface::VERBOSITY_NORMAL); // controls output verbosity
 set('bin/console', '{{bin/php}} {{release_or_current_path}}/bin/console');
-
 set('cachetool', '/run/php/php-fpm.sock');
 set('application', 'Shopware 6');
 set('allow_anonymous_stats', false);

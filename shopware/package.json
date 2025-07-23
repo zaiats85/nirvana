@@ -1,0 +1,28 @@
+{
+  "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@babel/eslint-parser": "^7.28.0",
+    "@babel/preset-env": "^7.28.0",
+    "@shopware-ag/eslint-config-base": "^2.0.0",
+    "eslint": "^8.57.1",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-vue": "^10.3.0",
+    "postcss-lit": "^1.2.0",
+    "stylelint": "^16.22.0",
+    "stylelint-config-standard": "^38.0.0",
+    "stylelint-config-standard-scss": "^15.0.1"
+  },
+  "scripts": {
+    "lint:js": "eslint 'custom/**/*.js' --ext .js",
+    "lint:js:fix": "eslint 'custom/**/*.js' --ext .js --fix",
+    "lint:js:storefront": "eslint 'custom/**/storefront/**/*.js' --ext .js",
+    "lint:js:storefront:fix": "eslint 'custom/**/storefront/**/*.js' --ext .js --fix",
+    "lint:js:admin": "eslint 'custom/**/administration/**/*.js' --ext .js",
+    "lint:js:admin:fix": "eslint 'custom/**/administration/**/*.js' --ext .js --fix",
+    "lint:scss": "stylelint 'custom/**/*.scss' --formatter verbose",
+    "lint:scss:fix": "stylelint 'custom/**/*.scss' --fix",
+    "lint:scss:summary": "stylelint 'custom/**/*.scss' --formatter string && echo '\n✨ Stylelint check completed!'",
+    "lint:all": "npm run lint:js && npm run lint:scss",
+    "lint:all:fix": "npm run lint:js:fix && npm run lint:scss:fix"
+  }
+}

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
+         bootstrap="src/TestBootstrap.php"
+         cacheResult="false"
+         executionOrder="random"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <env name="APP_ENV" value="test"/>
+    <env name="APP_DEBUG" value="1"/>
+    <env name="SHELL_VERBOSITY" value="-1"/>
+    <env name="DATABASE_URL" value="mysql://root:root@localhost:3306/shopware_test"/>
+    <env name="SHOPWARE_ES_ENABLED" value="0"/>
+    <env name="SHOPWARE_CDN_STRATEGY_DEFAULT" value="id"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+    <server name="MAILER_URL" value="null://localhost"/>
+    <!-- ###+ symfony/framework-bundle ### -->
+    <env name="APP_SECRET" value="d14e88201cb6dc0e159dfdf1986141df"/>
+    <!-- ###- symfony/framework-bundle ### -->
+    <!-- ###+ symfony/messenger ### -->
+    <!-- Choose one of the transports below -->
+    <!-- MESSENGER_TRANSPORT_DSN=amqp://guest:guest@localhost:5672/%2f/messages -->
+    <!-- MESSENGER_TRANSPORT_DSN=redis://localhost:6379/messages -->
+    <env name="MESSENGER_TRANSPORT_DSN" value="doctrine://default?auto_setup=0"/>
+    <!-- ###- symfony/messenger ### -->
+    <!-- ###+ symfony/mailer ### -->
+    <!-- MAILER_DSN=null://null -->
+    <!-- ###- symfony/mailer ### -->
+    <!-- ###+ symfony/lock ### -->
+    <!-- Choose one of the stores below -->
+    <!-- postgresql+advisory://db_user:db_password@localhost/db_name -->
+    <env name="LOCK_DSN" value="flock"/>
+    <!-- ###- symfony/lock ### -->
+  </php>
+  <testsuites>
+    <testsuite name="test">
+      <directory>tests</directory>
+      <directory suffix="Test.php">custom/static-plugins/*/tests</directory>
+    </testsuite>
+  </testsuites>
+  <!-- See also: vendor/shopware/platform/phpunit.xml.dist -->
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+      <directory suffix=".php">./custom/static-plugins</directory>
+    </include>
+    <exclude>
+      <directory suffix=".php">./custom/static-plugins/tests</directory>
+    </exclude>
+  </source>
+</phpunit>

@@ -5,6 +5,7 @@ shopware/vendor/
 shopware/custom/plugins/*/
 !shopware/custom/plugins/.gitkeep
 files/
+shopware/node_modules
 
 ###> shopware/core ###
 shopware/.env.local

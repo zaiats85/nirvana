@@ -25,15 +25,20 @@ deployment:
     # This is useful for project-specific plugins that are not versioned
     force-update:
       - Name
+
   overrides:
     ProdataBaseTheme:
       state: active
 
+  # runs one time in deployment, then never again
   one-time-tasks:
     - id: foo
       script: |
-        # runs one time in deployment, then never again
         ./bin/console --version
+
+    - id: set-default-theme
+      script: |
+        ./bin/console theme:change ProdataBaseTheme --all
 
   store:
     license-domain: 'example.com'
