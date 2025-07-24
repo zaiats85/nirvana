@@ -1,0 +1,47 @@
+name: Code Quality
+
+on:
+  pull_request:
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+      - run: composer install
+      - run: make phpstan/analyze
+
+  ecs:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+      - run: composer install
+      - run: make ecs/check
+
+  phpunit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: xdebug
+      - run: composer install
+      - run: make phpunit/analyze
+        env:
+          XDEBUG_MODE: coverage

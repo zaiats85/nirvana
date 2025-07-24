@@ -8,11 +8,6 @@ class StructureTest extends TestCase
 {
     private string $themeDir;
 
-    protected function setUp(): void
-    {
-        $this->themeDir = dirname(__DIR__, 2);
-    }
-
     public function testMainThemeClassExists(): void
     {
         $mainClass = $this->themeDir . '/src/ProdataBASETheme.php';
@@ -68,5 +63,10 @@ class StructureTest extends TestCase
         } else {
             $this->markTestSkipped('theme.json does not exist');
         }
+    }
+
+    protected function setUp(): void
+    {
+        $this->themeDir = \dirname(__DIR__, 2);
     }
 }

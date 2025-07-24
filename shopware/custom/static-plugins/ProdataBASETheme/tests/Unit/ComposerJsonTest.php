@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ProdataBASETheme\Tests\Unit;
 
@@ -6,22 +6,10 @@ use PHPUnit\Framework\TestCase;
 
 class ComposerJsonTest extends TestCase
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $composerData;
-
-    protected function setUp(): void
-    {
-        // project-root/
-        //   ├── composer.json
-        //   └── tests/Unit/ComposerJsonTest.php
-        $composerJsonPath = __DIR__ . '/../../composer.json';
-
-        $this->assertFileExists($composerJsonPath, 'composer.json file must exist');
-
-        $composerContent = file_get_contents($composerJsonPath);
-        $this->composerData = json_decode($composerContent, true);
-
-        $this->assertIsArray($this->composerData, 'composer.json must contain valid JSON');
-    }
 
     public function testComposerNameExists(): void
     {
@@ -47,7 +35,22 @@ class ComposerJsonTest extends TestCase
         $this->assertMatchesRegularExpression(
             '/^\d+\.\d+\.\d+(-[a-zA-Z0-9\-]+)?(\+[a-zA-Z0-9\-]+)?$/',
             $this->composerData['version'],
-            'Version must follow semantic versioning format (e.g., 1.0.0, 1.0.0-alpha, 1.0.0+build)'
+            'Version must follow semantic versioning format (e.g., 1.0.0, 1.0.0-alpha, 1.0.0+build)',
         );
+    }
+
+    protected function setUp(): void
+    {
+        // project-root/
+        //   ├── composer.json
+        //   └── tests/Unit/ComposerJsonTest.php
+        $composerJsonPath = __DIR__ . '/../../composer.json';
+
+        $this->assertFileExists($composerJsonPath, 'composer.json file must exist');
+
+        $composerContent = file_get_contents($composerJsonPath);
+        $this->composerData = json_decode($composerContent, true);
+
+        $this->assertIsArray($this->composerData, 'composer.json must contain valid JSON');
     }
 }

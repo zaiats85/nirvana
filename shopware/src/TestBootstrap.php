@@ -26,7 +26,7 @@ foreach ($testEnv as $key => $value) {
 
 $jwtDir = TEST_PROJECT_DIR . '/var/test/jwt';
 
-if (!file_exists($jwtDir) && !mkdir($jwtDir, 0770, true) && !is_dir($jwtDir)) {
+if (! file_exists($jwtDir) && ! mkdir($jwtDir, 0770, true) && ! is_dir($jwtDir)) {
     throw new \RuntimeException(sprintf('Directory "%s" was not created', $jwtDir));
 }
 
@@ -60,7 +60,7 @@ if (class_exists(BypassFinals::class)) {
 KernelLifecycleManager::prepare($loader);
 
 if (file_exists(TEST_PROJECT_DIR . '/.env.test')) {
-    if (!class_exists(Dotenv::class)) {
+    if (! class_exists(Dotenv::class)) {
         throw new RuntimeException('APP_ENV environment variable is not defined. You need to define environment variables for configuration or add "symfony/dotenv" as a Composer dependency to load variables from a .env.test file.');
     }
     (new Dotenv())

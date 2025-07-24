@@ -1,1 +1,0 @@
-I am looking for a way to make ai commits.AI recognizes changes made and writes a short commit message

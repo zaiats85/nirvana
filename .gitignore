@@ -6,6 +6,7 @@ shopware/custom/plugins/*/
 !shopware/custom/plugins/.gitkeep
 files/
 shopware/node_modules
+reports/*
 
 ###> shopware/core ###
 shopware/.env.local
