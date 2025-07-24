@@ -1,61 +1,109 @@
-#name: Code Quality
-#
-#on:
-#  pull_request:
-#
-#jobs:
-#  install:
-#    runs-on: ubuntu-latest
-#    defaults:
-#      run:
-#        working-directory: ./shopware
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.2
-#      - run: composer install
-#      - name: Cache vendor
-#        uses: actions/cache/save@v3
-#        with:
-#          path: ./shopware/vendor
-#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
-#
-#  phpstan:
-#    needs: install
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/cache/restore@v3
-#        with:
-#          path: ./shopware/vendor
-#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
-#      - run: make phpstan/analyze
-#
-#  ecs:
-#    needs: install
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/cache/restore@v3
-#        with:
-#          path: ./shopware/vendor
-#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
-#      - run: make ecs/check
-#
-#  phpunit:
-#    needs: install
-#    runs-on: ubuntu-latest
-#    steps:
-#      - uses: actions/checkout@v4
-#      - uses: actions/cache/restore@v3
-#        with:
-#          path: ./shopware/vendor
-#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
-#      - uses: shivammathur/setup-php@v2
-#        with:
-#          php-version: 8.2
-#          extensions: xdebug
-#      - run: make phpunit/analyze
-#        env:
-#          XDEBUG_MODE: coverage
+name: Code Quality
+
+on:
+  pull_request:
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Cache vendor
+        uses: actions/cache/save@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+  phpstan:
+    needs: install
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Restore vendor cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+      - name: Run PHPStan
+        run: php vendor/bin/phpstan analyze --configuration phpstan.neon
+
+  ecs:
+    needs: install
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Restore vendor cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+      - name: Run ECS
+        run: php vendor/bin/ecs --config=ecs.php check
+
+  phpunit:
+    needs: install
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: xdebug
+          coverage: xdebug
+
+      - name: Restore vendor cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+      - name: Run PHPUnit
+        run: |
+          php vendor/bin/phpunit -c phpunit.dist.xml \
+            --testdox --colors=always \
+            --coverage-html reports/coverage \
+            --coverage-clover reports/coverage/coverage.xml \
+            --log-junit reports/junit.xml
+        env:
+          XDEBUG_MODE: coverage
