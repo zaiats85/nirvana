@@ -25,11 +25,19 @@ jobs:
           BASE_SHA="${{ github.event.pull_request.base.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           
-          echo "🔍 Linting last 5 commits only..."
+          echo "🔍 Linting last 5 commits only (excluding merge commits)..."
           echo ""
           
-          # Get last 5 commits from PR
-          COMMITS=$(git rev-list --reverse $BASE_SHA..$HEAD_SHA | tail -5)
+          # Get last 5 commits from PR, excluding merge commits
+          COMMITS=$(git rev-list --reverse --no-merges $BASE_SHA..$HEAD_SHA | tail -5)
+          
+          # Check if we have any commits to validate
+          if [ -z "$COMMITS" ]; then
+            echo "ℹ️  No regular commits found to validate (only merge commits)"
+            echo "✅ Validation passed - no commits to check"
+            exit 0
+          fi
+          
           FAILED=0
           PROBLEM_COMMITS=()
           
@@ -45,6 +53,12 @@ jobs:
             SHORT_SHA=$(git rev-parse --short $commit)
             COMMIT_MSG=$(git log --format=%B -n 1 $commit)
             COMMIT_SUBJECT=$(git log --format=%s -n 1 $commit)
+          
+            # Skip merge commits (additional safety check)
+            if echo "$COMMIT_SUBJECT" | grep -q "^Merge "; then
+              echo "⏭️  Skipping merge commit: $SHORT_SHA"
+              continue
+            fi
           
             echo "========================================="
             echo "🔍 CHECKING COMMIT: $SHORT_SHA"
@@ -127,9 +141,12 @@ jobs:
             echo ""
             echo "Valid types: feat, fix, docs, style, refactor, test, chore"
             echo "Valid Refs patterns: feature/ABC-123, bug/XYZ-456, hotfix/DEF-789, release/GHI-012"
+            echo ""
+            echo "ℹ️  Note: Merge commits are automatically excluded from validation"
             exit 1
           else
             echo ""
             echo "🎉 ALL COMMITS PASSED VALIDATION!"
-            echo "✅ All 5 commits have valid format and required Refs lines"
+            echo "✅ All commits have valid format and required Refs lines"
+            echo "ℹ️  Merge commits were automatically excluded from validation"
           fi
