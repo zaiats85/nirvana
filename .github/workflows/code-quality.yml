@@ -1,0 +1,61 @@
+#name: Code Quality
+#
+#on:
+#  pull_request:
+#
+#jobs:
+#  install:
+#    runs-on: ubuntu-latest
+#    defaults:
+#      run:
+#        working-directory: ./shopware
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: 8.2
+#      - run: composer install
+#      - name: Cache vendor
+#        uses: actions/cache/save@v3
+#        with:
+#          path: ./shopware/vendor
+#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+#
+#  phpstan:
+#    needs: install
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/cache/restore@v3
+#        with:
+#          path: ./shopware/vendor
+#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+#      - run: make phpstan/analyze
+#
+#  ecs:
+#    needs: install
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/cache/restore@v3
+#        with:
+#          path: ./shopware/vendor
+#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+#      - run: make ecs/check
+#
+#  phpunit:
+#    needs: install
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v4
+#      - uses: actions/cache/restore@v3
+#        with:
+#          path: ./shopware/vendor
+#          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+#      - uses: shivammathur/setup-php@v2
+#        with:
+#          php-version: 8.2
+#          extensions: xdebug
+#      - run: make phpunit/analyze
+#        env:
+#          XDEBUG_MODE: coverage

@@ -37,7 +37,7 @@ services:
       - SQL_SET_DEFAULT_SESSION_VARIABLES=0
       - MAILER_URL=smtp://mailhog:1025?encryption=&auth_mode=
       - PUPPETEER_SKIP_DOWNLOAD=true
-      - XDEBUG_MODE=${XDEBUG_MODE:-off}
+      - XDEBUG_MODE=${XDEBUG_MODE:-off} #debug, coverage, develop, gcstats, profile, trace
       - PHP_IDE_CONFIG=serverName=localhost
       - REDIS_SESSION_HOST=redis
       - REDIS_SESSION_PORT=6379

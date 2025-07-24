@@ -1,6 +1,11 @@
 #new make file
 .PHONY: start stop logs db-import ssh help enable-xdebug disable-xdebug build-app db-export uninstall-plugins search-index-on search-index-off
 
+PROJECT_ROOT = ./shopware
+COMPOSER_BIN_DIR = $(PROJECT_ROOT)/vendor/bin
+PHPSTAN_CONFIG ?= $(PROJECT_ROOT)/phpstan.neon
+PHPUNIT_CONFIG_FILE ?= $(PROJECT_ROOT)/phpunit.dist.xml
+
 # Primary services
 APP_SERVER = app_server
 MYSQL = mysql
