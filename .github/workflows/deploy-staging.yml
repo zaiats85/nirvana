@@ -37,7 +37,7 @@ jobs:
       - name: Deploy to Staging
         uses: deployphp/action@v1
         with:
-          dep: deploy staging --quiet  # Reduce output
+          dep: deploy staging  # --quiet Reduce output
           sub-directory: shopware
           deployer-version: 7.5.12
           private-key: ${{ secrets.SSH_PRIVATE_KEY }}
