@@ -5,6 +5,7 @@ on:
 
 jobs:
   install:
+    name: Install Dependencies
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -28,6 +29,7 @@ jobs:
           key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
 
   phpstan:
+    name: PHPStan Analysis
     needs: install
     runs-on: ubuntu-latest
     defaults:
@@ -52,6 +54,7 @@ jobs:
         run: php vendor/bin/phpstan analyze --configuration phpstan.neon
 
   ecs:
+    name: Easy Coding Standard
     needs: install
     runs-on: ubuntu-latest
     defaults:
@@ -76,6 +79,7 @@ jobs:
         run: php vendor/bin/ecs --config=ecs.php check
 
   phpunit:
+    name: PHPUnit Tests
     needs: install
     runs-on: ubuntu-latest
     defaults:
