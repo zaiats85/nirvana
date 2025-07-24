@@ -4,14 +4,18 @@ namespace Deployer;
 
 require_once 'recipe/common.php';
 require_once 'contrib/cachetool.php';
+require 'contrib/rsync.php';
+
+
 use Symfony\Component\Console\Output\OutputInterface;
 
-set('verbosity', OutputInterface::VERBOSITY_NORMAL); // controls output verbosity
+set('verbosity', OutputInterface::VERBOSITY_QUIET); // controls output verbosity
 set('bin/console', '{{bin/php}} {{release_or_current_path}}/bin/console');
 set('cachetool', '/run/php/php-fpm.sock');
 set('application', 'Shopware 6');
 set('allow_anonymous_stats', false);
 set('default_timeout', 3600); // Increase when tasks take longer than that.
+set('rsync_src', dirname(__FILE__));
 
 // Hosts
 host('staging')
@@ -19,7 +23,7 @@ host('staging')
     ->setLabels([
         'type' => 'web',
         'stage' => 'staging',
-        'env'  => 'dev',
+        'env' => 'prod',
     ])
     ->setRemoteUser('www-data')
     ->set('deploy_path', '/var/www/nirvana')
@@ -63,8 +67,16 @@ set('writable_dirs', [
     'var',
 ]);
 
-task('sw:deployment:helper', static function() {
+task('sw:deployment:helper', static function () {
     run('cd {{release_path}} && vendor/bin/shopware-deployment-helper run');
+});
+
+task('sw:build:storefront', static function () {
+    run('cd {{release_path}} && ./bin/build-storefront.sh');
+});
+
+task('sw:build:administration', static function () {
+    run('cd {{release_path}} && ./bin/build-administration.sh');
 });
 
 task('sw:touch_install_lock', static function () {
@@ -72,8 +84,7 @@ task('sw:touch_install_lock', static function () {
 });
 
 task('sw:health_checks', static function () {
-#    run('cd {{release_path}} && bin/console system:check --context=pre_rollout');
-    run('cd {{release_path}} && vendor/bin/shopware-deployment-helper run --verbose');
+    run('cd {{release_path}} && bin/console system:check --context=pre_rollout');
 });
 
 desc('Deploys Nirvana');
@@ -81,20 +92,50 @@ task('deploy', [
     'deploy:prepare',
     'deploy:clear_paths',
     'sw:deployment:helper',
+    'sw:build:administration',
+    'sw:build:storefront',
     "sw:touch_install_lock",
     'sw:health_checks',
     'deploy:publish',
 ]);
 
-task('deploy:update_code')->setCallback(static function () {
-    upload('.', '{{release_path}}', [
-        'options' => [
-            '--exclude=.git',
-            '--exclude=deploy.php',
-            '--exclude=node_modules',
-        ],
-    ]);
-});
+Deployer::get()->tasks->remove('deploy:update_code');
+task('deploy:update_code', [
+    'rsync',
+]);
+
+// Configure rsync settings
+set('rsync', [
+    'exclude' => [
+        '.git',
+        '.gitignore',
+        'deploy.php',
+        'ecs.php',
+        '.eslintrc*',
+        'phpstan.neon',
+        '.stylelintrc*',
+        '.babelrc*',
+        'phpunit.dist.xml',
+        'var/cache',
+        'var/logs',
+        'composer.lock',
+        '.env.local',
+        '.env.test',
+        'tests/',
+        'README.md',
+    ],
+    'exclude-file' => false,
+    'include' => [],
+    'include-file' => false,
+    'filter' => [],
+    'filter-file' => false,
+    'filter-perdir' => false,
+    'flags' => 'rzcEl',          // r=recursive, z=compress, c=checksum, E=preserve executability, l=copy symlinks
+    'options' => ['delete', 'delete-after', 'force'], //Delete after successful transfer, delete even if deleted dir is not empty
+    'timeout' => 600,            // 1 minute timeout
+]);
+
+task('deploy:update_code')->desc('Upload source code to remote server');
 
 // Hooks
 after('deploy:failed', 'deploy:unlock');
