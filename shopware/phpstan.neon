@@ -1,0 +1,9 @@
+parameters:
+    level: 6
+    paths:
+        - src/
+        - custom/static-plugins
+    excludePaths:
+        - vendor/
+        - '*/vendor/*'
+        - var/
