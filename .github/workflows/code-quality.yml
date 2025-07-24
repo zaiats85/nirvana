@@ -5,7 +5,7 @@ on:
 
 jobs:
   install:
-    name: Install Dependencies
+    name: Build -> PhpStan -> ECS -> PhpUnit
     runs-on: ubuntu-latest
     defaults:
       run:
