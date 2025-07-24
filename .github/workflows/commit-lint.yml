@@ -25,64 +25,111 @@ jobs:
           BASE_SHA="${{ github.event.pull_request.base.sha }}"
           HEAD_SHA="${{ github.event.pull_request.head.sha }}"
           
-          echo "🔍 Linting commits..."
+          echo "🔍 Linting last 5 commits only..."
+          echo ""
           
-          COMMITS=$(git rev-list --reverse $BASE_SHA..$HEAD_SHA)
+          # Get last 5 commits from PR
+          COMMITS=$(git rev-list --reverse $BASE_SHA..$HEAD_SHA | tail -5)
           FAILED=0
+          PROBLEM_COMMITS=()
+          
+          echo "📋 Commits to validate:"
+          for commit in $COMMITS; do
+            SHORT_SHA=$(git rev-parse --short $commit)
+            COMMIT_SUBJECT=$(git log --format=%s -n 1 $commit)
+            echo "  - $SHORT_SHA: $COMMIT_SUBJECT"
+          done
+          echo ""
           
           for commit in $COMMITS; do
             SHORT_SHA=$(git rev-parse --short $commit)
             COMMIT_MSG=$(git log --format=%B -n 1 $commit)
+            COMMIT_SUBJECT=$(git log --format=%s -n 1 $commit)
           
-            echo "Checking $SHORT_SHA..."
+            echo "========================================="
+            echo "🔍 CHECKING COMMIT: $SHORT_SHA"
+            echo "📝 Subject: $COMMIT_SUBJECT"
+            echo "========================================="
+            echo ""
+            echo "Full commit message:"
+            echo "$COMMIT_MSG"
+            echo ""
           
             # Check conventional commit format
+            echo "🔍 Testing conventional commit format..."
             if ! echo "$COMMIT_MSG" | npx commitlint; then
-              echo "❌ $SHORT_SHA: Invalid commit format"
+              echo ""
+              echo "🚨 PROBLEM FOUND IN COMMIT: $SHORT_SHA"
+              echo "❌ Issue: Invalid conventional commit format"
+              echo "📄 Commit subject: $COMMIT_SUBJECT"
+              echo "💡 Expected format: type(scope): description"
+              echo "   Examples: feat: add feature, fix: resolve bug, docs: update readme"
               FAILED=1
+              PROBLEM_COMMITS+=("$SHORT_SHA - Invalid conventional commit format")
+              echo ""
               continue
             fi
           
             # Check for required Refs: line
+            echo "🔍 Testing for required Refs: line..."
             if ! echo "$COMMIT_MSG" | grep -q "^Refs: "; then
-              echo "❌ $SHORT_SHA: Missing required 'Refs:' line"
+              echo ""
+              echo "🚨 PROBLEM FOUND IN COMMIT: $SHORT_SHA"
+              echo "❌ Issue: Missing required 'Refs:' line"
+              echo "📄 Commit subject: $COMMIT_SUBJECT"
+              echo "💡 Add a line like: Refs: feature/ABC-123"
               FAILED=1
+              PROBLEM_COMMITS+=("$SHORT_SHA - Missing Refs: line")
+              echo ""
               continue
             fi
           
             # Validate Refs: format
+            echo "🔍 Testing Refs: line format..."
             REF_LINE=$(echo "$COMMIT_MSG" | grep "^Refs: " | head -n 1)
             if ! echo "$REF_LINE" | grep -qE "^Refs: (feature|bug|hotfix|release)/[A-Z]+-[0-9]+$"; then
-              echo "❌ $SHORT_SHA: Invalid Refs format: $REF_LINE"
-              echo "   Expected: Refs: feature/ABC-123"
+              echo ""
+              echo "🚨 PROBLEM FOUND IN COMMIT: $SHORT_SHA"
+              echo "❌ Issue: Invalid Refs: format"
+              echo "📄 Commit subject: $COMMIT_SUBJECT"
+              echo "🔗 Found: $REF_LINE"
+              echo "💡 Expected format: Refs: feature/ABC-123"
+              echo "   Valid types: feature, bug, hotfix, release"
               FAILED=1
+              PROBLEM_COMMITS+=("$SHORT_SHA - Invalid Refs: format: $REF_LINE")
+              echo ""
               continue
             fi
           
-            echo "✅ $SHORT_SHA: Valid"
+            echo "✅ $SHORT_SHA: All checks passed!"
+            echo ""
           done
+          
+          echo "========================================="
+          echo "📊 VALIDATION SUMMARY"
+          echo "========================================="
           
           if [ $FAILED -eq 1 ]; then
             echo ""
-            echo "❌ All commits MUST include Refs line:"
+            echo "❌ VALIDATION FAILED!"
             echo ""
-            echo "📋 Required format:"
-            echo "   type: description"
+            echo "🚨 PROBLEMATIC COMMITS:"
+            for problem in "${PROBLEM_COMMITS[@]}"; do
+              echo "   • $problem"
+            done
+            echo ""
+            echo "📋 REQUIRED FORMAT FOR ALL COMMITS:"
+            echo "   type(scope): description"
+            echo "   "
+            echo "   More details here..."
             echo "   "
             echo "   Refs: feature/ABC-123"
             echo ""
-            echo "✅ Valid examples:"
-            echo "   feat: add user auth"
-            echo "   "
-            echo "   Refs: feature/AUTH-456"
-            echo ""
-            echo "   fix: resolve login bug"
-            echo "   "
-            echo "   Refs: bug/LOGIN-789"
-            echo ""
-            echo "❌ Invalid (missing Refs):"
-            echo "   feat: add user auth"
+            echo "Valid types: feat, fix, docs, style, refactor, test, chore"
+            echo "Valid Refs patterns: feature/ABC-123, bug/XYZ-456, hotfix/DEF-789, release/GHI-012"
             exit 1
+          else
+            echo ""
+            echo "🎉 ALL COMMITS PASSED VALIDATION!"
+            echo "✅ All 5 commits have valid format and required Refs lines"
           fi
-          
-          echo "🎉 All commits valid with required Refs!"
