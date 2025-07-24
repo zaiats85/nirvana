@@ -4,12 +4,83 @@ on:
   pull_request:
 
 jobs:
-  code-quality:
+  install:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Install dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Cache vendor
+        uses: actions/cache/save@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+  phpstan:
+    needs: install
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Restore vendor cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+      - name: Run PHPStan
+        run: php vendor/bin/phpstan analyze --configuration ./phpstan.neon
+
+  ecs:
+    needs: install
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+
+      - name: Restore vendor cache
+        uses: actions/cache/restore@v4
+        with:
+          path: ./shopware/vendor
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
+
+      - name: Run ECS
+        run: php vendor/bin/ecs --config=ecs.php check
+
+  phpunit:
+    needs: install
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./shopware
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,22 +92,11 @@ jobs:
           extensions: xdebug
           coverage: xdebug
 
-      - name: Cache Composer dependencies
-        uses: actions/cache@v4
+      - name: Restore vendor cache
+        uses: actions/cache/restore@v4
         with:
           path: ./shopware/vendor
-          key: composer-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
-          restore-keys: |
-            composer-${{ runner.os }}-
-
-      - name: Install dependencies
-        run: composer install --no-progress --prefer-dist --optimize-autoloader
-
-      - name: Run PHPStan
-        run: php vendor/bin/phpstan analyze --configuration phpstan.neon
-
-      - name: Run ECS
-        run: php vendor/bin/ecs --config=ecs.php check
+          key: vendor-${{ runner.os }}-${{ hashFiles('shopware/composer.lock') }}
 
       - name: Run PHPUnit
         run: |
