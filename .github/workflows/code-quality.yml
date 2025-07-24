@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          submodules: recursive
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -35,12 +33,17 @@ jobs:
         run: composer install --no-progress --prefer-dist --optimize-autoloader
 
       - name: Run PHPStan
-        run: make phpstan/analyze
+        run: php vendor/bin/phpstan analyze --configuration phpstan.neon
 
       - name: Run ECS
-        run: make ecs/check
+        run: php vendor/bin/ecs --config=ecs.php check
 
       - name: Run PHPUnit
-        run: make phpunit/analyze
+        run: |
+          php vendor/bin/phpunit -c phpunit.dist.xml \
+            --testdox --colors=always \
+            --coverage-html reports/coverage \
+            --coverage-clover reports/coverage/coverage.xml \
+            --log-junit reports/junit.xml
         env:
           XDEBUG_MODE: coverage
