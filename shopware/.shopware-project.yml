@@ -32,9 +32,13 @@ deployment:
 
   # runs one time in deployment, then never again
   one-time-tasks:
-    - id: foo
-      script: |
-        ./bin/console --version
+#    - id: build-storefront
+#      script: |
+#        ./bin/build-storefront.sh
+#
+#    - id: build-administration
+#      script: |
+#        ./bin/build-administration.sh
 
     - id: set-default-theme
       script: |

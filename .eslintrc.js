@@ -17,7 +17,7 @@ module.exports = {
     rules: {
         'import/no-unresolved': 'off',
         'import/no-import-module-exports': 'off',
-        'no-console': 'warn' // error to check
+        'no-console': 'off' // error to check
     },
     globals: {
         PluginManager: 'readonly',
