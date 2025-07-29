@@ -24,7 +24,7 @@ services:
       - HTTP_PROXY=${HTTP_PROXY}
       - HTTPS_PROXY=${HTTPS_PROXY}
       - NO_PROXY=localhost,127.0.0.1,mysql
-      - DATABASE_URL=mysql://app:app@mysql:3306/nirvana
+      - DATABASE_URL=mysql://app:app@mysql:3306/shopware
       - APP_URL=http://localhost:8080
       - SHOPWARE_APP_ENV=dev
       - SHOPWARE_ES_ENABLED=1
