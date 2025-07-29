@@ -40,4 +40,3 @@ export default class ProductSliderControls extends Plugin {
         this.controls.style.width = `${parseInt(currentWidth, 10) + 30}px`;
     }
 }
-
