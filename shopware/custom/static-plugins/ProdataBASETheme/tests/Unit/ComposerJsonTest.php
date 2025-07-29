@@ -6,6 +6,9 @@ use PHPUnit\Framework\TestCase;
 
 class ComposerJsonTest extends TestCase
 {
+    /**
+     * @var array<string, mixed>
+     */
     private array $composerData;
 
     public function testComposerNameExists(): void

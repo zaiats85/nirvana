@@ -10,7 +10,7 @@ class StructureTest extends TestCase
 
     public function testMainThemeClassExists(): void
     {
-        $mainClass = $this->themeDir . '/src/ProdataBASENOFileExistsTheme.php';
+        $mainClass = $this->themeDir . '/src/ProdataBASETheme.php';
         $this->assertFileExists($mainClass, 'Main theme class should exist');
     }
 
