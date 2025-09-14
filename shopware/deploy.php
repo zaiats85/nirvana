@@ -18,6 +18,23 @@ set('default_timeout', 3600); // Increase when tasks take longer than that.
 set('rsync_src', dirname(__FILE__));
 
 // Hosts
+host('web-user-study-server')
+    ->setHostname('157.230.14.200')
+    ->set('user', 'www-data')
+    ->set('port', 3434)
+    ->set('identityFile', '~/.ssh/www-data-deploy')
+    ->setLabels([
+        'type' => 'web',
+        'stage' => 'staging',
+        'env' => 'prod',
+    ])
+    ->setRemoteUser('www-data')
+    ->set('deploy_path', '/var/www/nirvana')
+    ->set('http_user', 'www-data') // Not needed, if the `user` is the same, the webserver is running with
+    ->set('writable_mode', 'chmod')
+    ->set('keep_releases', 3) // Keeps 3 old releases for rollbacks (if no DB migrations were executed)
+    ->set('php_version', '8.2');
+
 host('staging')
     ->setHostname('157.230.14.200')
     ->setLabels([
