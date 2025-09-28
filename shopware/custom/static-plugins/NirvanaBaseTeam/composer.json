@@ -1,0 +1,25 @@
+{
+  "name": "nirvana/base-theme",
+  "description": "nirvana gmbh",
+  "type": "shopware-platform-plugin",
+  "license": "proprietary",
+  "authors": 
+  [
+    {
+        "name": "Nirvana Gmbh"
+    }
+  ],
+  "version": "1.0.0",
+  "autoload": {
+    "psr-4": {
+      "NirvanaBaseTeam\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "NirvanaBaseTeam\\NirvanaBaseTeam",
+    "label": {
+      "de-DE": "Theme NirvanaBaseTeam plugin",
+      "en-GB": "Theme NirvanaBaseTeam plugin"
+    }
+  }
+}
