@@ -10,6 +10,7 @@
     "type": "project",
     "require": {
         "composer-runtime-api": "^2.0",
+        "nirvana/base-theme": "^1.0",
         "prodata/base-theme": "^1.0",
         "shopware/administration": "*",
         "shopware/core": "v6.7.0.1",

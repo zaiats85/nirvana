@@ -22,7 +22,7 @@ services:
         condition: service_healthy
     environment:
       - NO_PROXY=localhost,127.0.0.1,mysql
-      - DATABASE_URL=mysql://app:app@mysql:3306/shopware
+      - DATABASE_URL=mysql://app:app@mysql:3306/nirvana
       - APP_URL=http://localhost:8080
       - SHOPWARE_APP_ENV=dev
       - SHOPWARE_ES_ENABLED=1

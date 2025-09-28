@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "699885572c610f800a3842c4d5a6cd3d",
+    "content-hash": "2169d2dcefef6c1e4544809e3efa42ed",
     "packages": [
         {
             "name": "async-aws/core",
@@ -3768,6 +3768,41 @@
                 }
             ],
             "time": "2025-03-24T10:02:05+00:00"
+        },
+        {
+            "name": "nirvana/base-theme",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "custom/static-plugins/NirvanaBaseTeam",
+                "reference": "f6baf487a23c24ff11e50263a5b93fcf87cc4ad8"
+            },
+            "type": "shopware-platform-plugin",
+            "extra": {
+                "shopware-plugin-class": "NirvanaBaseTeam\\NirvanaBaseTeam",
+                "label": {
+                    "de-DE": "Theme NirvanaBaseTeam plugin",
+                    "en-GB": "Theme NirvanaBaseTeam plugin"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "NirvanaBaseTeam\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Nirvana Gmbh"
+                }
+            ],
+            "description": "nirvana gmbh",
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
         },
         {
             "name": "nyholm/psr7",

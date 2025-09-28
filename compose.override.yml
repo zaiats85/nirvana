@@ -7,7 +7,7 @@ services:
 
   mysql:
     ports:
-      - "3306:3306"
+      - "3307:3306"
 
   mailhog:
     ports:
@@ -15,4 +15,4 @@ services:
 
   opensearch:
    ports:
-     - "9200:9200"
+     - "33200:9200"
